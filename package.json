@@ -4,7 +4,6 @@
   "description": "Restaurant promotional video with Remotion",
   "scripts": {
     "start": "remotion studio",
-    "build": "remotion render",
     "upgrade": "remotion upgrade",
     "server": "node render-server.js"
   },
