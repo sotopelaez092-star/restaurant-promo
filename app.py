@@ -120,11 +120,12 @@ if st.button("🎬 生成视频", use_container_width=True):
                     files['right'] = (right_file.name, right_file.getvalue(), right_file.type)
 
             with st.spinner("🎬 正在云端渲染视频... 预计1-3分钟"):
-                # 调用Railway渲染API
+                # 调用Railway渲染API（禁用代理）
                 response = requests.post(
                     f"{RENDER_API_URL}/render",
                     files=files,
-                    timeout=300  # 5分钟超时
+                    timeout=300,  # 5分钟超时
+                    proxies={'http': None, 'https': None}  # 禁用代理
                 )
 
                 if response.status_code == 200:
@@ -137,7 +138,10 @@ if st.button("🎬 生成视频", use_container_width=True):
 
                         if video_url:
                             # 下载视频
-                            video_response = requests.get(video_url)
+                            video_response = requests.get(
+                                video_url,
+                                proxies={'http': None, 'https': None}
+                            )
                             if video_response.status_code == 200:
                                 video_bytes = video_response.content
 
