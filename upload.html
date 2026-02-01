@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant Promo - 素材上传</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #e8f5e9;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .upload-box {
+      background: #fff;
+      border: 2px dashed #aaa;
+      border-radius: 10px;
+      padding: 30px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .upload-box:hover {
+      border-color: #667eea;
+      background: #f5f5f5;
+    }
+
+    .upload-box.has-file {
+      border-color: #4caf50;
+      background: #f1f8f4;
+    }
+
+    .upload-icon {
+      font-size: 48px;
+      margin-bottom: 10px;
+      color: #999;
+    }
+
+    .upload-text {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 5px;
+    }
+
+    .file-name {
+      font-size: 13px;
+      color: #4caf50;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .preview-container {
+      margin-top: 15px;
+      display: none;
+    }
+
+    .preview-container.show {
+      display: block;
+    }
+
+    .preview-media {
+      max-width: 100%;
+      max-height: 200px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: #9e9e9e;
+      color: white;
+      border: none;
+      padding: 15px;
+      font-size: 18px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 30px;
+      transition: all 0.3s;
+    }
+
+    .submit-btn:hover {
+      background: #757575;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .info-text {
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+
+    .file-type-hint {
+      font-size: 12px;
+      color: #999;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🍽️ Restaurant Promo 素材上传</h1>
+
+    <form id="uploadForm">
+      <!-- 主圆视频/图片 -->
+      <div class="form-group">
+        <label class="form-label">中部主圆素材</label>
+        <div class="upload-box" onclick="document.getElementById('mainMedia').click()">
+          <div class="upload-icon">📁</div>
+          <div class="upload-text">点击上传视频或图片</div>
+          <div class="file-type-hint">支持 MP4, MOV, JPG, PNG</div>
+          <div class="file-name" id="mainFileName"></div>
+        </div>
+        <input type="file" id="mainMedia" accept="video/*,image/*" onchange="handleFileSelect(event, 'main')">
+        <div class="preview-container" id="mainPreview"></div>
+      </div>
+
+      <!-- 底部左圆视频/图片 -->
+      <div class="form-group">
+        <label class="form-label">底部左圆素材</label>
+        <div class="upload-box" onclick="document.getElementById('leftMedia').click()">
+          <div class="upload-icon">📁</div>
+          <div class="upload-text">点击上传视频或图片</div>
+          <div class="file-type-hint">支持 MP4, MOV, JPG, PNG</div>
+          <div class="file-name" id="leftFileName"></div>
+        </div>
+        <input type="file" id="leftMedia" accept="video/*,image/*" onchange="handleFileSelect(event, 'left')">
+        <div class="preview-container" id="leftPreview"></div>
+      </div>
+
+      <!-- 底部右圆视频/图片 -->
+      <div class="form-group">
+        <label class="form-label">底部右圆素材</label>
+        <div class="upload-box" onclick="document.getElementById('rightMedia').click()">
+          <div class="upload-icon">📁</div>
+          <div class="upload-text">点击上传视频或图片</div>
+          <div class="file-type-hint">支持 MP4, MOV, JPG, PNG</div>
+          <div class="file-name" id="rightFileName"></div>
+        </div>
+        <input type="file" id="rightMedia" accept="video/*,image/*" onchange="handleFileSelect(event, 'right')">
+        <div class="preview-container" id="rightPreview"></div>
+      </div>
+
+      <button type="button" class="submit-btn" onclick="handleSubmit()">生成视频</button>
+
+      <div class="info-text">
+        上传后，文件将保存到 src/assets 目录<br>
+        视频会自动替换到对应的圆形区域中
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const files = {
+      main: null,
+      left: null,
+      right: null
+    };
+
+    function handleFileSelect(event, type) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      files[type] = file;
+
+      // 更新文件名显示
+      const fileNameElement = document.getElementById(`${type}FileName`);
+      fileNameElement.textContent = `✓ ${file.name}`;
+
+      // 更新上传框样式
+      const uploadBox = event.target.previousElementSibling;
+      uploadBox.classList.add('has-file');
+
+      // 显示预览
+      const previewContainer = document.getElementById(`${type}Preview`);
+      previewContainer.innerHTML = '';
+      previewContainer.classList.add('show');
+
+      const fileURL = URL.createObjectURL(file);
+
+      if (file.type.startsWith('video/')) {
+        const video = document.createElement('video');
+        video.src = fileURL;
+        video.controls = true;
+        video.className = 'preview-media';
+        previewContainer.appendChild(video);
+      } else if (file.type.startsWith('image/')) {
+        const img = document.createElement('img');
+        img.src = fileURL;
+        img.className = 'preview-media';
+        previewContainer.appendChild(img);
+      }
+    }
+
+    async function handleSubmit() {
+      // 检查是否至少上传了一个文件
+      if (!files.main && !files.left && !files.right) {
+        alert('请至少上传一个素材文件');
+        return;
+      }
+
+      // 创建FormData
+      const formData = new FormData();
+      if (files.main) formData.append('main', files.main);
+      if (files.left) formData.append('left', files.left);
+      if (files.right) formData.append('right', files.right);
+
+      try {
+        // 显示上传中提示
+        const btn = document.querySelector('.submit-btn');
+        btn.textContent = '上传中...';
+        btn.disabled = true;
+
+        // 调用API上传文件
+        const response = await fetch('http://localhost:3001/api/upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          alert('✅ 上传成功！\n\n文件已保存并更新。\n请在 Remotion Studio 中刷新查看效果。');
+
+          // 重置表单
+          files.main = null;
+          files.left = null;
+          files.right = null;
+          document.getElementById('uploadForm').reset();
+          document.querySelectorAll('.upload-box').forEach(box => {
+            box.classList.remove('has-file');
+          });
+          document.querySelectorAll('.file-name').forEach(name => {
+            name.textContent = '';
+          });
+          document.querySelectorAll('.preview-container').forEach(preview => {
+            preview.classList.remove('show');
+            preview.innerHTML = '';
+          });
+        } else {
+          alert('❌ 上传失败：' + result.message);
+        }
+
+        btn.textContent = '生成视频';
+        btn.disabled = false;
+
+      } catch (error) {
+        console.error('上传失败:', error);
+        alert('❌ 上传失败，请确保服务器已启动。\n\n错误信息: ' + error.message);
+
+        const btn = document.querySelector('.submit-btn');
+        btn.textContent = '生成视频';
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
