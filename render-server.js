@@ -176,9 +176,9 @@ function updateImports(type, filename, isVideo) {
   fs.writeFileSync(promoFile, content, 'utf8');
 }
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`\n🚀 渲染服务器已启动！`);
   console.log(`📡 端口: ${PORT}`);
-  console.log(`🌐 访问地址: http://localhost:${PORT}`);
+  console.log(`🌐 访问地址: http://0.0.0.0:${PORT}`);
   console.log(`\n等待渲染请求...\n`);
 });
